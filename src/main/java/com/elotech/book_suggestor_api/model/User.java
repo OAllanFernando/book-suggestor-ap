@@ -1,28 +1,34 @@
 package com.elotech.book_suggestor_api.model;
 
-package com.example.library.entity;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
 @Entity
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class Usuario {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @jakarta.validation.constraints.NotNull
     private String nome;
+
+    @NotNull
+    @jakarta.validation.constraints.Email
+    @Column(unique = true)
     private String email;
 
-    @Column(name = "data_cadastro")
+    @NotNull
     private LocalDate dataCadastro;
 
     private String telefone;
