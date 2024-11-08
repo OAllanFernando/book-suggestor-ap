@@ -14,14 +14,14 @@ import java.time.LocalDate;
 @Entity
 @Data
 @NoArgsConstructor
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @jakarta.validation.constraints.NotNull
-    private String nome;
+    private String name;
 
     @NotNull
     @jakarta.validation.constraints.Email
@@ -29,7 +29,8 @@ public class User {
     private String email;
 
     @NotNull
-    private LocalDate dataCadastro;
+    private LocalDate created_at;
 
-    private String telefone;
+    @jakarta.validation.constraints.NotNull
+    private String phone_number;
 }
