@@ -1,12 +1,8 @@
 package com.elotech.book_suggestor_api.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -14,7 +10,8 @@ import java.time.LocalDate;
 @Entity
 @Data
 @NoArgsConstructor
-public class Users {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +26,8 @@ public class Users {
     private String email;
 
     @NotNull
-    private LocalDate created_at;
+    private LocalDate createdAt;
 
     @jakarta.validation.constraints.NotNull
-    private String phone_number;
+    private String phoneNumber;
 }
