@@ -16,12 +16,6 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     List<Loan> findAllByUserId(Long userId);
     List<Loan> findAllByBookId(Long bookId);
 
-    List<Loan> findAllByCategory(String category);
+    List<Loan> findByBookCategory(String category);
 
-    List<Loan> findAllUserPreferences(Long userId);
-
-    
-    List<Loan> findActiveLoanAndReturnDateIsAtMidnight();
-    // Multiple validations
-    List<Loan> findActiveLoanAndReturnDateIsAtMidnightAndStatusIsPending();
 }
