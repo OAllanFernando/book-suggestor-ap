@@ -32,4 +32,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleLoanException(LoanException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UserException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+
+    public ResponseEntity<String> handleUserException(UserException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BookException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleBookException(BookException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+
 }
