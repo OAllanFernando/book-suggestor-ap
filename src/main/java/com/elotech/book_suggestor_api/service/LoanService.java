@@ -10,7 +10,8 @@ import com.elotech.book_suggestor_api.utils.StandartResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,7 +35,38 @@ public class LoanService {
 //        if (loan.getReturnDate() != null && !loan.getReturnDate().isBefore(loan.getLoanDate())) {
 //            throw new LoanException(StandartResponse.LOAN_INCORRECT_RETURN_DATE);
 //        }
-
         return loanRepository.save(loan);
     }
+
+    public Loan getLoanById(Long loanId) throws LoanException {
+        return loanRepository.findById(loanId)
+                .orElseThrow(() -> new LoanException(StandartResponse.LOAN_NOT_FOUND));
+    }
+
+
+    public List<Loan> getAllLoans() {
+        return loanRepository.findAll();
+    }
+
+    public Loan returnedLoan(Long loanId) throws LoanException {
+        Loan loan = loanRepository.findById(loanId)
+                .orElseThrow(() -> new LoanException(StandartResponse.LOAN_NOT_FOUND));
+
+        loan.setReturnDate(LocalDateTime.now());
+        loan.setStatus(LoanStatus.RETURNED);
+        return loanRepository.save(loan);
+    }
+
+    // TODO: Implment logs for tracking loan reactivation
+    // SOLUTION : plus 1 minute. That leaves to track every loan reactivation
+    public Loan reactivateLoan(Long loanId) throws LoanException {
+        Loan loan = loanRepository.findById(loanId)
+                .orElseThrow(() -> new LoanException(StandartResponse.LOAN_NOT_FOUND));
+
+        loan.setReturnDate(loan.getLoanDate().toLocalDate().atStartOfDay().plusMinutes(1));
+        loan.setStatus(LoanStatus.ACTIVE);
+        return loanRepository.save(loan);
+    }
+
+
 }
