@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -29,10 +29,10 @@ public class Loan {
     private Book book;
 
     @NotNull
-    private LocalDate loanDate;
+    private LocalDateTime  loanDate;
 
     @NotNull
-    private LocalDate returnDate;
+    private LocalDateTime  returnDate;
 
     @Column(nullable = false)
     private LoanStatus status;
@@ -42,10 +42,9 @@ public class Loan {
     public Loan(User user, Book book) {
         this.user = user;
         this.book = book;
-        this.loanDate = LocalDate.now();
+        this.loanDate = LocalDateTime.now();
         this.status = LoanStatus.ACTIVE;
-        // com a data padronizada poderiaos apagar o status da tabela de emprestimos, economiza um enum e um campo em cada registro
         // this.returnDate =  LocalDate.now();
-        this.returnDate = LocalDate.from(LocalDate.now().atStartOfDay());
+        this.returnDate = LocalDateTime.now().toLocalDate().atStartOfDay();
     }
 }
