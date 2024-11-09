@@ -1,6 +1,16 @@
 package com.elotech.book_suggestor_api.utils;
 
-public class StandartResponse {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+@Data
+@AllArgsConstructor
+public class StandardResponse {
+
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
 
     public static final String SUCCESS = "Success";
     public static final String ERROR = "Error";
@@ -21,4 +31,5 @@ public class StandartResponse {
     public static final String BOOK_NOT_FOUND = "Book not found";
 
     public static final String USER_NOT_FOUND = "User not found";
+
 }

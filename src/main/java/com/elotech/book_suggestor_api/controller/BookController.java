@@ -3,7 +3,7 @@ package com.elotech.book_suggestor_api.controller;
 import com.elotech.book_suggestor_api.exception.BookException;
 import com.elotech.book_suggestor_api.model.Book;
 import com.elotech.book_suggestor_api.service.BookService;
-import com.elotech.book_suggestor_api.utils.StandartResponse;
+import com.elotech.book_suggestor_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class BookController {
             Book createdBook = bookService.createBook(book);
             return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
         } catch (BookException e) {
-            return new ResponseEntity<>(new StandartResponse(e.getMessage()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new StandardResponse(e.getMessage()), HttpStatus.CONFLICT);
         }
     }
 
@@ -44,7 +44,7 @@ public class BookController {
             Book book = bookService.getBookById(id);
             return new ResponseEntity<>(book, HttpStatus.OK);
         } catch (BookException e) {
-            return new ResponseEntity<>(new StandartResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new StandardResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -54,7 +54,7 @@ public class BookController {
             Book book = bookService.updateBook(id, updatedBook);
             return new ResponseEntity<>(book, HttpStatus.OK);
         } catch (BookException e) {
-            return new ResponseEntity<>(new StandartResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new StandardResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -62,9 +62,9 @@ public class BookController {
     public ResponseEntity<?> deleteBook(@PathVariable Long id) {
         try {
             bookService.deleteBook(id);
-            return new ResponseEntity<>(new StandartResponse("Book deleted successfully"), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(new StandardResponse("Book deleted successfully"), HttpStatus.NO_CONTENT);
         } catch (BookException e) {
-            return new ResponseEntity<>(new StandartResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new StandardResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -3,7 +3,7 @@ package com.elotech.book_suggestor_api.service;
 import com.elotech.book_suggestor_api.exception.BookException;
 import com.elotech.book_suggestor_api.model.Book;
 import com.elotech.book_suggestor_api.repository.BookRepository;
-import com.elotech.book_suggestor_api.utils.StandartResponse;
+import com.elotech.book_suggestor_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class BookService {
 
     public Book createBook(Book book) throws BookException {
         if (bookRepository.existsByIsbn(book.getIsbn())) {
-            throw new BookException(StandartResponse.BOOK_NOT_FOUND);
+            throw new BookException(StandardResponse.BOOK_NOT_FOUND);
         }
         return bookRepository.save(book);
     }
@@ -32,7 +32,7 @@ public class BookService {
 
     public Book getBookById(Long id) throws BookException {
         return bookRepository.findById(id)
-                .orElseThrow(() -> new BookException(StandartResponse.BOOK_NOT_FOUND));
+                .orElseThrow(() -> new BookException(StandardResponse.BOOK_NOT_FOUND));
     }
 
     public Book updateBook(Long id, Book updatedBook) throws BookException {
