@@ -3,6 +3,8 @@ package com.elotech.book_suggestor_api.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
 import java.util.Date;
 import lombok.Data;
 
@@ -29,9 +31,18 @@ public class Book {
     private String isbn;
 
     @NotNull(message = "Publication date cannot be null")
-    private Date publicationDate;
+    private LocalDate publicationDate;
 
     @NotNull(message = "Category cannot be null")
     @NotBlank(message = "Category cannot be blank")
     private String category;
+
+
+    public Book( String title, String author, String isbn, LocalDate publicationDate, String category) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.publicationDate = publicationDate;
+        this.category = category;
+    }
 }
