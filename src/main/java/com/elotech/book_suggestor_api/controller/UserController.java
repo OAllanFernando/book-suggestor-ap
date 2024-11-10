@@ -1,9 +1,12 @@
 package com.elotech.book_suggestor_api.controller;
 
+import com.elotech.book_suggestor_api.dto.RegisterDTO;
 import com.elotech.book_suggestor_api.exception.UserException;
 import com.elotech.book_suggestor_api.model.User;
 import com.elotech.book_suggestor_api.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +23,9 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public void createUser(@RequestBody User user) throws UserException {
-        userService.createUser(user);
+    public void createUser(@RequestBody @Valid RegisterDTO user) throws UserException {
+        String encodedPassword = new BCryptPasswordEncoder().encode(user.password());
+        userService.createUser(new User(user.name(), user.email(), user.phoneNumber(), encodedPassword));
     }
 
     @GetMapping
