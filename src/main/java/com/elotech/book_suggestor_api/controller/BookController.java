@@ -3,10 +3,12 @@ package com.elotech.book_suggestor_api.controller;
 import com.elotech.book_suggestor_api.exception.BookException;
 import com.elotech.book_suggestor_api.model.Book;
 import com.elotech.book_suggestor_api.service.BookService;
+import com.elotech.book_suggestor_api.service.GoogleBooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,10 +16,12 @@ import java.util.List;
 @RequestMapping("/api/books")
 public class BookController {
 
+    private final GoogleBooksService googleBooksService;
     private final BookService bookService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(GoogleBooksService googleBooksService, BookService bookService) {
+        this.googleBooksService = googleBooksService;
         this.bookService = bookService;
     }
 
@@ -63,6 +67,15 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (BookException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/search")
+    public List<Book> searchBooks(@RequestParam String title) {
+        try {
+            return googleBooksService.searchBooks(title);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch books", e);
         }
     }
 }
