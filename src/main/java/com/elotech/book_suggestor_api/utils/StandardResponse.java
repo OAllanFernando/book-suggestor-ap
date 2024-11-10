@@ -6,6 +6,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class StandardResponse {
 
+    public static final String INTERNAL_SERVER_ERROR = "Internal server error";
+
     private String message;
 
     public String getMessage() {
@@ -26,6 +28,7 @@ public class StandardResponse {
 
 
     public static final String USER_EMAIL_ALREADY_EXISTS = "Email already exists";
+    public static final String USER_CREATED = "Successfully created user";
 
 
     public static final String BOOK_NOT_FOUND = "Book not found";

@@ -6,13 +6,15 @@ import com.elotech.book_suggestor_api.model.User;
 import com.elotech.book_suggestor_api.repository.UserRepository;
 import com.elotech.book_suggestor_api.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -21,11 +23,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user) throws UserException {
+    public void createUser(User user) throws UserException {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new UserException(StandardResponse.USER_EMAIL_ALREADY_EXISTS);
         }
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public List<User> getAllUsers() {
@@ -48,5 +50,17 @@ public class UserService {
     public void deleteUser(Long id) throws UserException {
         User user = getUserById(id);
         userRepository.delete(user);
+    }
+
+    public void findUserByEmail(String email) throws UserException {
+        boolean exists = userRepository.existsByEmail(email);
+        if (exists) {
+            throw new UserException(StandardResponse.USER_EMAIL_ALREADY_EXISTS);
+        }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username);
     }
 }
