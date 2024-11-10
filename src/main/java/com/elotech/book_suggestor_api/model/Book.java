@@ -1,5 +1,7 @@
 package com.elotech.book_suggestor_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,13 +10,16 @@ import java.time.LocalDate;
 import java.util.Date;
 import lombok.Data;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @Entity
 @Table(name = "books")
+
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @NotNull(message = "Title cannot be null")
@@ -37,6 +42,9 @@ public class Book {
     @NotBlank(message = "Category cannot be blank")
     private String category;
 
+    public Book() {
+
+    }
 
     public Book( String title, String author, String isbn, LocalDate publicationDate, String category) {
         this.title = title;
