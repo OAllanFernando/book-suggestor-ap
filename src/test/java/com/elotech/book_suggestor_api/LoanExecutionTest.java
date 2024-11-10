@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,11 +40,7 @@ public class LoanExecutionTest {
         user.setName("Name");
         user.setPhoneNumber("PhoneNumber");
 
-        Book book = new Book();
-        book.setAuthor("Allan Tester");
-        book.setCategory("Default Category");
-        book.setIsbn("UNIC_ISBN");
-        book.setTitle("Title");
+        Book book = new Book("O teste do emprestimo", "Allan Tester", "UNIC_ISBN", LocalDate.now(), "Default Category");
 
         LocalDateTime returnDate = LocalDateTime.now().toLocalDate().atStartOfDay();
         Loan loan = new Loan();
