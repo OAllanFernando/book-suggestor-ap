@@ -4,19 +4,19 @@ import com.elotech.book_suggestor_api.exception.LoanException;
 import com.elotech.book_suggestor_api.model.Book;
 import com.elotech.book_suggestor_api.model.Loan;
 import com.elotech.book_suggestor_api.model.User;
+import com.elotech.book_suggestor_api.model.enums.LoanStatus;
 import com.elotech.book_suggestor_api.repository.LoanRepository;
 import com.elotech.book_suggestor_api.service.LoanService;
 import com.elotech.book_suggestor_api.utils.StandardResponse;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -32,15 +32,11 @@ public class LoanExecutionTest {
     @InjectMocks
     private LoanService loanService;
 
+    User user = new User("Allann", "Email@email", "(44) 99826-0968", "senha_forte");
+    Book book = new Book("O teste do emprestimo", "Allan Tester", "UNIC_ISBN", LocalDate.now(), "Default Category");
+
     @Test
     void testLoanTimeCreation() throws LoanException {
-
-        User user = new User();
-        user.setEmail("Email");
-        user.setName("Name");
-        user.setPhoneNumber("PhoneNumber");
-
-        Book book = new Book("O teste do emprestimo", "Allan Tester", "UNIC_ISBN", LocalDate.now(), "Default Category");
 
         LocalDateTime returnDate = LocalDateTime.now().toLocalDate().atStartOfDay();
         Loan loan = new Loan();
@@ -57,6 +53,25 @@ public class LoanExecutionTest {
 
         assertTrue(newLoan.getReturnDate().isBefore(newLoan.getLoanDate()),
                 StandardResponse.LOAN_INCORRECT_RETURN_DATE);
+    }
+
+    @Test
+    void mustNotLoanABookAlreadyLoaned() throws LoanException {
+
+        book.setId(1L);
+        Loan loan = new Loan();
+        loan.setUser(user);
+        loan.setBook(book);
+        loan.setLoanDate(LocalDateTime.now());
+        loan.setReturnDate(LocalDateTime.now().plusDays(1));
+
+        when(loanRepository.findByBookIdAndStatus(book.getId(),  LoanStatus.ACTIVE)).thenReturn(Collections.singletonList(loan));
+
+        LoanException exception = assertThrows(LoanException.class, () -> {
+            this.loanService.createLoan(user, book);
+        });
+
+        assertEquals(StandardResponse.LOAN_BOOK_ALREADY_LOANED, exception.getMessage());
     }
 }
 
