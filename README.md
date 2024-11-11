@@ -44,7 +44,7 @@ Learning project with Spring Boot and PostgreSQL - API for book suggestions and 
 ## Features
 
 - **Book management:** Add, update, and delete books.
-- **Book search:** Search books by category and title.
+- **Book search:** Search books by title.
 - **User tracking:** Track borrowed books and user history.
 - **Google books integration:** Search books on google api (must have api key on)
 
