@@ -8,6 +8,7 @@ public class StandardResponse {
 
     public static final String INTERNAL_SERVER_ERROR = "Internal server error";
     public static final String BOOK_ALREADY_EXISTS = "Book already exists";
+    public static final String LOAN_NO_RECOMMENDATION = "No recommendation for this user";
 
     private String message;
 

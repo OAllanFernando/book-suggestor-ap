@@ -41,9 +41,18 @@ public class UserService implements UserDetailsService {
 
     public User updateUser(Long id, User updatedUser) throws UserException {
         User user = getUserById(id);
-        user.setName(updatedUser.getName());
-        user.setEmail(updatedUser.getEmail());
-        user.setPhoneNumber(updatedUser.getPhoneNumber());
+        if (updatedUser.getName() != null) {
+            user.setName(updatedUser.getName());
+        }
+        if (updatedUser.getEmail() != null) {
+            if (userRepository.existsByEmail(user.getEmail())) {
+                throw new UserException(StandardResponse.USER_EMAIL_ALREADY_EXISTS);
+            }
+            user.setEmail(updatedUser.getEmail());
+        }
+        if (updatedUser.getPhoneNumber() != null) {
+            user.setPhoneNumber(updatedUser.getPhoneNumber());
+        }
         return userRepository.save(user);
     }
 
