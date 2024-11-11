@@ -7,6 +7,7 @@ import lombok.Data;
 public class StandardResponse {
 
     public static final String INTERNAL_SERVER_ERROR = "Internal server error";
+    public static final String BOOK_ALREADY_EXISTS = "Book already exists";
 
     private String message;
 
