@@ -1,6 +1,6 @@
 # Book Suggestor API - Starter
 
-Learning project with Spring Boot and PostgreSQL - API for book suggestions and borrowing tracking.
+Skill test, this project is write with Spring Boot and PostgreSQL - API for book suggestions and borrowing tracking.
  
 
 ---
